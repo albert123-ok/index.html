@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WasteWise — Panduan Pilah Sampah</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50:'#f0fdf4',100:'#dcfce7',200:'#bbf7d0',300:'#86efac',
+                            400:'#4ade80',500:'#22c55e',600:'#16a34a',700:'#15803d',
+                            800:'#166534',900:'#14532d',950:'#052e16'
+                        },
+                        amber: {
+                            400:'#fbbf24',500:'#f59e0b',600:'#d97706'
+                        },
+                        rose: {
+                            400:'#fb7185',500:'#f43f5e',600:'#e11d48'
+                        },
+                        slate: {
+                            800:'#1e1e1e',900:'#111111',950:'#0a0a0a'
+                        }
+                    },
+                    fontFamily: {
+                        sans:['Space Grotesk','sans-serif'],
+                        mono:['Space Mono','monospace']
+                    },
+                    letterSpacing: { tightest:'-0.05em' },
+                    animation: {
+                        blob:'blob 10s infinite',
+                        float:'float 6s ease-in-out infinite',
+                        'float-delayed':'float 6s ease-in-out 2s infinite',
+                        'pulse-soft':'pulseSoft 3s ease-in-out infinite',
+                        'bounce-in':'bounceIn 0.5s ease-out',
+                        'shake':'shake 0.5s ease-in-out',
+                        'confetti':'confetti 1s ease-out forwards',
+                        'slide-up':'slideUp 0.4s ease-out',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%':{transform:'translate(0,0) scale(1)'},
+                            '33%':{transform:'translate(30px,-50px) scale(1.1)'},
+                            '66%':{transform:'translate(-20px,20px) scale(0.9)'},
+                            '100%':{transform:'translate(0,0) scale(1)'}
+                        },
+                        float: {
+                            '0%,100%':{transform:'translateY(0)'},
+                            '50%':{transform:'translateY(-10px)'}
+                        },
+                        pulseSoft: {
+                            '0%,100%':{opacity:'0.6'},
+                            '50%':{opacity:'1'}
+                        },
+                        bounceIn: {
+                            '0%':{transform:'scale(0.3)',opacity:'0'},
+                            '50%':{transform:'scale(1.05)'},
+                            '70%':{transform:'scale(0.95)'},
+                            '100%':{transform:'scale(1)',opacity:'1'}
+                        },
+                        shake: {
+                            '0%,100%':{transform:'translateX(0)'},
+                            '20%':{transform:'translateX(-8px)'},
+                            '40%':{transform:'translateX(8px)'},
+                            '60%':{transform:'translateX(-5px)'},
+                            '80%':{transform:'translateX(5px)'}
+                        },
+                        confetti: {
+                            '0%':{transform:'translateY(0) rotate(0deg)',opacity:'1'},
+                            '100%':{transform:'translateY(-100px) rotate(720deg)',opacity:'0'}
+                        },
+                        slideUp: {
+                            '0%':{transform:'translateY(20px)',opacity:'0'},
+                            '100%':{transform:'translateY(0)',opacity:'1'}
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html{scroll-behavior:smooth}
+        body{background:#0a0a0a}
+        .text-gradient-green{
+            background:linear-gradient(to right,#4ade80,#22c55e,#16a34a);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+        }
+        .text-gradient-amber{
+            background:linear-gradient(to right,#fbbf24,#f59e0b,#d97706);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+        }
+        .text-glow-green{text-shadow:0 0 10px rgba(34,197,94,0.3)}
+        .line-gradient{background:linear-gradient(to right,#1e1e1e,rgba(34,197,94,0.5),#1e1e1e)}
+        .grain{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:0.05;mix-blend-mode:overlay}
+        .dot-pattern{background-image:radial-gradient(#0d3320 1px,transparent 1px);background-size:16px 16px}
+        .waste-card{transition:all 0.3s ease}
+        .waste-card:hover{transform:translateY(-4px)}
+        .quiz-option{transition:all 0.2s ease;cursor:pointer}
+        .quiz-option:hover:not(.disabled){border-color:rgba(34,197,94,0.5);background:rgba(34,197,94,0.05)}
+        .quiz-option.correct{border-color:#22c55e!important;background:rgba(34,197,94,0.15)!important;animation:bounceIn 0.5s ease-out}
+        .quiz-option.wrong{border-color:#f43f5e!important;background:rgba(244,63,94,0.15)!important;animation:shake 0.5s ease-in-out}
+        .quiz-option.disabled{pointer-events:none;opacity:0.6}
+        .toast{transform:translateX(120%);transition:transform 0.4s cubic-bezier(0.4,0,0.2,1)}
+        .toast.show{transform:translateX(0)}
+        .mobile-nav{transform:translateX(100%);transition:transform 0.3s ease}
+        .mobile-nav.open{transform:translateX(0)}
+        ::-webkit-scrollbar{width:6px}
+        ::-webkit-scrollbar-track{background:#0a0a0a}
+        ::-webkit-scrollbar-thumb{background:#22c55e;border-radius:3px}
+        .search-highlight{background:rgba(34,197,94,0.3);border-radius:2px;padding:0 2px}
+        .progress-fill{transition:width 0.5s ease}
+        .category-tab.active-organic{background:rgba(34,197,94,0.15);border-color:rgba(34,197,94,0.5);color:#4ade80}
+        .category-tab.active-nonorganic{background:rgba(245,158,11,0.15);border-color:rgba(245,158,11,0.5);color:#fbbf24}
+        .category-tab.active-all{background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.3);color:#86efac}
+        .stat-number{font-variant-numeric:tabular-nums}
+    </style>
+</head>
+<body class="bg-slate-950 text-white font-sans overflow-x-hidden">
+
+<!-- Grain -->
+<svg class="grain"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#grain)"/></svg>
+
+<!-- Background Blobs -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+    <div class="absolute top-1/4 -left-48 w-96 h-96 bg-green-500/10 rounded-full blur-[100px] animate-blob mix-blend-screen"></div>
+    <div class="absolute top-3/4 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-[100px] animate-blob mix-blend-screen" style="animation-delay:3s"></div>
+    <div class="absolute top-1/2 left-1/2 w-96 h-96 bg-green-700/5 rounded-full blur-[100px] animate-blob mix-blend-screen" style="animation-delay:6s"></div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 h-20 flex items-center transition-all duration-300" style="background:rgba(10,10,10,0.8);backdrop-filter:blur(12px)">
+    <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <a href="#" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 rounded-lg bg-green-500 flex items-center justify-center shadow-[0_0_10px_rgba(34,197,94,0.3)] group-hover:shadow-[0_0_20px_rgba(34,197,94,0.5)] transition-all">
+                <iconify-icon icon="lucide:recycle" width="22" class="text-slate-950"></iconify-icon>
+            </div>
+            <div>
+                <span class="text-lg font-bold tracking-tight">WasteWise</span>
+                <span class="hidden sm:block text-[10px] font-mono text-slate-500 uppercase tracking-widest">Panduan Pilah Sampah</span>
+            </div>
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+            <a href="#beranda" class="text-xs uppercase tracking-widest text-slate-400 hover:text-green-400 transition-colors">Beranda</a>
+            <a href="#beda" class="text-xs uppercase tracking-widest text-slate-400 hover:text-green-400 transition-colors">Perbedaan</a>
+            <a href="#database" class="text-xs uppercase tracking-widest text-slate-400 hover:text-green-400 transition-colors">Database</a>
+            <a href="#kuis" class="text-xs uppercase tracking-widest text-slate-400 hover:text-green-400 transition-colors">Kuis</a>
+            <a href="#tips" class="text-xs uppercase tracking-widest text-slate-400 hover:text-green-400 transition-colors">Tips</a>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="#database" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-green-500 text-slate-950 text-xs font-bold uppercase tracking-wide rounded-lg hover:shadow-[0_0_20px_rgba(34,197,94,0.4)] transition-all duration-300">
+                <iconify-icon icon="lucide:search" width="14"></iconify-icon>
+                Cek Sampah
+            </a>
+            <button id="menuBtn" class="md:hidden text-slate-300 hover:text-green-400 transition-colors">
+                <iconify-icon icon="lucide:menu" width="24"></iconify-icon>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div id="mobileNav" class="mobile-nav fixed inset-y-0 right-0 w-72 z-[60] bg-slate-900/95 backdrop-blur-xl border-l border-slate-800 p-8 flex flex-col">
+    <button id="closeMenu" class="self-end text-slate-400 hover:text-white mb-8"><iconify-icon icon="lucide:x" width="24"></iconify-icon></button>
+    <div class="flex flex-col gap-6">
+        <a href="#beranda" class="mobile-link text-sm uppercase tracking-widest text-slate-300 hover:text-green-400 transition-colors">Beranda</a>
+        <a href="#beda" class="mobile-link text-sm uppercase tracking-widest text-slate-300 hover:text-green-400 transition-colors">Perbedaan</a>
+        <a href="#database" class="mobile-link text-sm uppercase tracking-widest text-slate-300 hover:text-green-400 transition-colors">Database</a>
+        <a href="#kuis" class="mobile-link text-sm uppercase tracking-widest text-slate-300 hover:text-green-400 transition-colors">Kuis</a>
+        <a href="#tips" class="mobile-link text-sm uppercase tracking-widest text-slate-300 hover:text-green-400 transition-colors">Tips</a>
+    </div>
+</div>
+<div id="navOverlay" class="fixed inset-0 bg-black/50 z-[55] hidden"></div>
+
+<!-- HERO -->
+<section id="beranda" class="relative min-h-screen flex flex-col items-center justify-center px-4 pt-36 lg:pt-48 pb-24 lg:pb-32">
+    <div class="absolute inset-0 dot-pattern opacity-20"></div>
+    <div class="absolute top-1/3 left-1/4 w-64 h-64 border border-green-500/10 rounded-full animate-[spin_15s_linear_infinite]"></div>
+    <div class="absolute top-1/3 right-1/4 w-48 h-48 border border-green-500/5 rounded-full animate-[spin_10s_linear_infinite_reverse]"></div>
+
+    <div class="relative text-center max-w-5xl mx-auto">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-green-500/30 bg-green-500/5 mb-8">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            <span class="text-xs font-mono text-green-400 uppercase tracking-wider">Mulai Pilah Sampah Sekarang</span>
+        </div>
+
+        <div class="relative inline-block mb-6">
+            <div class="w-20 h-20 rounded-2xl bg-slate-900/80 border border-green-500/20 flex items-center justify-center mx-auto animate-float">
+                <iconify-icon icon="lucide:leaf" width="36" class="text-green-500 text-glow-green"></iconify-icon>
+            </div>
+        </div>
+
+        <h1 class="text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tightest leading-[0.9] mb-6">
+            <span class="block text-white">Pilah</span>
+            <span class="block text-gradient-green text-glow-green">Sampahmu</span>
+        </h1>
+
+        <p class="text-slate-300 font-mono text-sm sm:text-base max-w-2xl mx-auto mb-10 leading-relaxed">
+            Belajar membedakan sampah organik dan non-organik dengan mudah.
+            Setiap langkah kecil yang kamu lakukan berdampak besar bagi bumi.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+            <a href="#database" class="group inline-flex items-center gap-2 px-8 py-3.5 bg-green-500 text-slate-950 text-xs font-bold uppercase tracking-wide rounded-lg hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] transition-all duration-300">
+                Cek Jenis Sampah
+                <iconify-icon icon="lucide:arrow-right" width="16" class="group-hover:translate-x-1 transition-transform"></iconify-icon>
+            </a>
+            <a href="#kuis" class="group inline-flex items-center gap-2 px-8 py-3.5 border border-slate-700 text-slate-300 text-xs font-bold uppercase tracking-wide rounded-lg hover:border-green-500/50 hover:text-white transition-all duration-300">
+                Uji Pengetahuanmu
+                <iconify-icon icon="lucide:brain" width="16" class="group-hover:scale-110 transition-transform"></iconify-icon>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4 max-w-lg mx-auto">
+            <div class="text-center">
+                <div class="text-2xl sm:text-3xl font-bold text-white stat-number">50+</div>
+                <div class="text-xs font-mono text-slate-500 uppercase tracking-wider mt-1">Jenis Sampah</div>
+            </div>
+            <div class="text-center border-x border-slate-800">
+                <div class="text-2xl sm:text-3xl font-bold text-white stat-number">2</div>
+                <div class="text-xs font-mono text-slate-500 uppercase tracking-wider mt-1">Kategori</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl sm:text-3xl font-bold text-white stat-number">10</div>
+                <div class="text-xs font-mono text-slate-500 uppercase tracking-wider mt-1">Soal Kuis</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-float">
+        <span class="text-[10px] font-mono text-slate-600 uppercase tracking-widest">Scroll</span>
+        <iconify-icon icon="lucide:chevrons-down" width="16" class="text-slate-600"></iconify-icon>
+    </div>
+</section>
+
+<div class="line-gradient h-px max-w-3xl mx-auto"></div>
+
+<!-- PERBEDAAN -->
+<section id="beda" class="py-24 px-4">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <div class="h-px w-8 bg-green-500"></div>
+                <span class="text-xs font-mono text-green-400 uppercase tracking-widest">Perbedaan</span>
+                <div class="h-px w-8 bg-green-500"></div>
+            </div>
+            <h2 class="text-3xl lg:text-4xl font-bold tracking-tight mb-4">
+                Organik vs <span class="text-gradient-amber">Non-Organik</span>
+            </h2>
+            <p class="text-slate-400 font-mono text-sm max-w-xl mx-auto">Pahami perbedaan mendasar agar kamu bisa memilah dengan tepat</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Organik -->
+            <div class="group relative bg-slate-900/50 border border-green-500/20 rounded-2xl p-8 hover:border-green-500/40 hover:shadow-[0_0_30px_rgba(34,197,94,0.1)] transition-all duration-300">
+                <div class="absolute -inset-4 bg-green-500/5 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="relative">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-14 h-14 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center">
+                            <iconify-icon icon="lucide:apple" width="28" class="text-green-400"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-green-400">Sampah Organik</h3>
+                            <span class="text-xs font-mono text-slate-500 uppercase tracking-wider">Bisa Terurai</span>
+                        </div>
+                    </div>
+                    <p class="text-sm font-mono text-slate-300 leading-relaxed mb-6">
+                        Sampah yang berasal dari makhluk hidup dan dapat diurai secara alami oleh mikroorganisme menjadi kompos atau bahan bermanfaat lainnya.
+                    </p>
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="lucide:check" width="16" class="text-green-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                            <span class="text-sm font-mono text-slate-300">Sisa makanan (nasi, sayur, buah)</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="lucide:check" width="16" class="text-green-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                            <span class="text-sm font-mono text-slate-300">Daun, ranting, rumput</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="lucide:check" width="16" class="text-green-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                            <span class="text-sm font-mono text-slate-300">Tulang, kulit buah, ampas kopi/teh</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="lucide:check" width="16" class="text-green-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                            <span class="text-sm font-mono text-slate-300">Kertas & karton (bisa terurai)</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="lucide:check" width="16" class="text-green-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                            <span class="text-sm font-mono text-slate-300">Seresah hewan (kotoran, bulu)</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 px-4 py-2.5 bg-green-500/5 border border-green-500/10 rounded-lg">
+                        <iconify-icon icon="lucide:clock" width="14" class="text-green-400"></iconify-icon>
+                        <span class="text-xs font-mono text-green-400">Terurai dalam <strong>2 minggu - 6 bulan</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Non-Organik -->
+            <div class="group relative bg-slate-900/50 border border-amber-500/20 rounded-2xl p-8 hover:border-amber-500/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.1)] transition-all duration-300">
+                <div class="absolute -inset-4 bg-amber-500/5 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="relative">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-14 h-14 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+                            <iconify-icon icon="lucide:package" width="28" class="text-amber-400"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-amber-400">Sampah Non-Organik</h3>
+                            <span class="text-xs font-mono text-slate-500 uppercase tracking-wider">Sulit Terurai</span>
+                        </div>
+                    </div>
+                    <p class="text-sm font-mono text-slate-300 leading-relaxed mb-6">
+                        Sampah yang berasal dari bahan kimia atau proses industri yang tidak dapat diurai secara alami, membutuhkan waktu ratusan bahkan ribuan tahun.
+                    </p>
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="lucide:x" width="16" class="text-amber-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                            <span class="text-sm font-mono text-slate-300">Plastik (kresek, botol, styrofoam)</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="lucide:x" width="16" class="text-amber-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                            <span class="text-sm font-mono text-slate-300">Logam (kaleng, besi, aluminium)</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="lucide:x" width="16" class="text-amber-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                            <span class="text-sm font-mono text-slate-300">Kaca (botol, pecahan, vas)</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="lucide:x" width="16" class="text-amber-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                            <span class="text-sm font-mono text-slate-300">Elektronik (baterai, kabel, HP)</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="lucide:x" width="16" class="text-amber-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                            <span class="text-sm font-mono text-slate-300">Tekstil sintetis, karet, ban</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 px-4 py-2.5 bg-amber-500/5 border border-amber-500/10 rounded-lg">
+                        <iconify-icon icon="lucide:alert-triangle" width="14" class="text-amber-400"></iconify-icon>
+                        <span class="text-xs font-mono text-amber-400">Terurai dalam <strong>50 - 1000+ tahun</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="line-gradient h-px max-w-3xl mx-auto"></div>
+
+<!-- DATABASE SAMPAH -->
+<section id="database" class="py-24 px-4">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <div class="h-px w-8 bg-green-500"></div>
+                <span class="text-xs font-mono text-green-400 uppercase tracking-widest">Database</span>
+                <div class="h-px w-8 bg-green-500"></div>
+            </div>
+            <h2 class="text-3xl lg:text-4xl font-bold tracking-tight mb-4">
+                Cek <span class="text-gradient-green">Jenis Sampah</span>
+            </h2>
+            <p class="text-slate-400 font-mono text-sm max-w-xl mx-auto">Ketik nama sampah untuk mengetahui kategorinya</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="max-w-xl mx-auto mb-8">
+            <div class="relative">
+                <iconify-icon icon="lucide:search" width="18" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></iconify-icon>
+                <input id="searchInput" type="text" placeholder="Ketik nama sampah... (contoh: botol plastik)" class="w-full pl-12 pr-4 py-4 bg-slate-900/50 border border-slate-800 rounded-xl text-sm font-mono text-white placeholder-slate-600 focus:outline-none focus:border-green-500/50 focus:shadow-[0_0_15px_rgba(34,197,94,0.1)] transition-all">
+                <button id="clearSearch" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors hidden">
+                    <iconify-icon icon="lucide:x-circle" width="18"></iconify-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="flex flex-wrap items-center justify-center gap-2 mb-8">
+            <button class="category-tab active-all px-5 py-2 text-xs font-bold uppercase tracking-wide rounded-lg border transition-all duration-300" data-filter="all">Semua</button>
+            <button class="category-tab px-5 py-2 text-xs font-bold uppercase tracking-wide rounded-lg border border-slate-800 text-slate-400 hover:border-green-500/30 transition-all duration-300" data-filter="organik">
+                <iconify-icon icon="lucide:leaf" width="12" class="mr-1"></iconify-icon>Organik
+            </button>
+            <button class="category-tab px-5 py-2 text-xs font-bold uppercase tracking-wide rounded-lg border border-slate-800 text-slate-400 hover:border-amber-500/30 transition-all duration-300" data-filter="non-organik">
+                <iconify-icon icon="lucide:package" width="12" class="mr-1"></iconify-icon>Non-Organik
+            </button>
+        </div>
+
+        <!-- Result Count -->
+        <div id="resultCount" class="text-center mb-6">
+            <span class="text-xs font-mono text-slate-500">Menampilkan <span id="countNum" class="text-green-400">0</span> jenis sampah</span>
+        </div>
+
+        <!-- Waste Grid -->
+        <div id="wasteGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <!-- Filled by JS -->
+        </div>
+
+        <!-- No Results -->
+        <div id="noResults" class="hidden text-center py-16">
+            <iconify-icon icon="lucide:search-x" width="48" class="text-slate-700 mb-4"></iconify-icon>
+            <p class="text-sm font-mono text-slate-500">Sampah tidak ditemukan. Coba kata kunci lain.</p>
+        </div>
+    </div>
+</section>
+
+<div class="line-gradient h-px max-w-3xl mx-auto"></div>
+
+<!-- KUIS -->
+<section id="kuis" class="py-24 px-4">
+    <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-12">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <div class="h-px w-8 bg-green-500"></div>
+                <span class="text-xs font-mono text-green-400 uppercase tracking-widest">Kuis Interaktif</span>
+                <div class="h-px w-8 bg-green-500"></div>
+            </div>
+            <h2 class="text-3xl lg:text-4xl font-bold tracking-tight mb-4">
+                Uji <span class="text-gradient-green">Pengetahuanmu</span>
+            </h2>
+            <p class="text-slate-400 font-mono text-sm max-w-xl mx-auto">Jawab 10 pertanyaan untuk menguji kemampuanmu memilah sampah</p>
+        </div>
+
+        <!-- Quiz Container -->
+        <div id="quizContainer" class="bg-slate-900/50 border border-slate-800/60 rounded-2xl overflow-hidden">
+            <!-- Quiz Header -->
+            <div class="p-6 border-b border-slate-800/60">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-mono text-slate-500 uppercase tracking-wider">Soal <span id="qNum">1</span> dari 10</span>
+                    <div class="flex items-center gap-2">
+                        <iconify-icon icon="lucide:trophy" width="14" class="text-green-400"></iconify-icon>
+                        <span class="text-xs font-mono text-green-400 font-bold">Skor: <span id="scoreDisplay">0</span></span>
+                    </div>
+                </div>
+                <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="progressBar" class="progress-fill h-full bg-gradient-to-r from-green-500 to-green-400 rounded-full" style="width:10%"></div>
+                </div>
+            </div>
+
+            <!-- Quiz Body -->
+            <div id="quizBody" class="p-6 sm:p-8">
+                <!-- Start Screen -->
+                <div id="quizStart" class="text-center py-8">
+                    <div class="w-20 h-20 rounded-2xl bg-green-500/10 border border-green-500/20 flex items-center justify-center mx-auto mb-6 animate-float">
+                        <iconify-icon icon="lucide:brain" width="36" class="text-green-400"></iconify-icon>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Siap Menguji Pengetahuanmu?</h3>
+                    <p class="text-sm font-mono text-slate-400 mb-8 max-w-sm mx-auto">10 pertanyaan tentang sampah organik dan non-organik. Bisakah kamu mendapat skor sempurna?</p>
+                    <button id="startQuiz" class="inline-flex items-center gap-2 px-8 py-3.5 bg-green-500 text-slate-950 text-xs font-bold uppercase tracking-wide rounded-lg hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] transition-all duration-300">
+                        <iconify-icon icon="lucide:play" width="16"></iconify-icon>
+                        Mulai Kuis
+                    </button>
+                </div>
+
+                <!-- Question Screen -->
+                <div id="quizQuestion" class="hidden">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div id="qIcon" class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center">
+                            <iconify-icon icon="lucide:help-circle" width="20" class="text-slate-400"></iconify-icon>
+                        </div>
+                        <h3 id="qText" class="text-lg font-bold"></h3>
+                    </div>
+                    <div id="qOptions" class="space-y-3"></div>
+                    <div id="qFeedback" class="hidden mt-6 p-4 rounded-xl text-sm font-mono"></div>
+                    <button id="nextBtn" class="hidden mt-6 w-full flex items-center justify-center gap-2 px-8 py-3 bg-green-500 text-slate-950 text-xs font-bold uppercase tracking-wide rounded-lg hover:shadow-[0_0_20px_rgba(34,197,94,0.4)] transition-all duration-300">
+                        Soal Berikutnya
+                        <iconify-icon icon="lucide:arrow-right" width="16"></iconify-icon>
+                    </button>
+                </div>
+
+                <!-- Result Screen -->
+                <div id="quizResult" class="hidden text-center py-8">
+                    <div id="resultIcon" class="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce-in"></div>
+                    <h3 id="resultTitle" class="text-2xl font-bold mb-2"></h3>
+                    <p id="resultDesc" class="text-sm font-mono text-slate-400 mb-4 max-w-sm mx-auto"></p>
+                    <div class="text-5xl font-bold mb-2"><span id="finalScore" class="text-gradient-green">0</span><span class="text-slate-600 text-2xl">/10</span></div>
+                    <p class="text-xs font-mono text-slate-500 mb-8">Jawaban benar</p>
+                    <button id="retryQuiz" class="inline-flex items-center gap-2 px-8 py-3.5 bg-green-500 text-slate-950 text-xs font-bold uppercase tracking-wide rounded-lg hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] transition-all duration-300">
+                        <iconify-icon icon="lucide:rotate-ccw" width="16"></iconify-icon>
+                        Coba Lagi
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="line-gradient h-px max-w-3xl mx-auto"></div>
+
+<!-- TIPS -->
+<section id="tips" class="py-24 px-4">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <div class="h-px w-8 bg-green-500"></div>
+                <span class="text-xs font-mono text-green-400 uppercase tracking-widest">Tips</span>
+                <div class="h-px w-8 bg-green-500"></div>
+            </div>
+            <h2 class="text-3xl lg:text-4xl font-bold tracking-tight mb-4">
+                Cara <span class="text-gradient-green">Memilah</span> dengan Benar
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Tip 1 -->
+            <div class="group bg-slate-900/50 border border-slate-800/60 rounded-xl p-6 hover:border-green-500/30 hover:shadow-[0_0_15px_rgba(34,197,94,0.1)] transition-all duration-300">
+                <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                    <iconify-icon icon="lucide:layers" width="24" class="text-green-400"></iconify-icon>
+                </div>
+                <div class="text-xs font-mono text-green-400 uppercase tracking-widest mb-2">Langkah 1</div>
+                <h3 class="text-lg font-bold mb-2">Siapkan Dua Tempat</h3>
+                <p class="text-sm font-mono text-slate-400 leading-relaxed">Sediakan minimal 2 tempat sampah terpisah — satu untuk organik (hijau) dan satu untuk non-organik (kuning).</p>
+            </div>
+            <!-- Tip 2 -->
+            <div class="group bg-slate-900/50 border border-slate-800/60 rounded-xl p-6 hover:border-green-500/30 hover:shadow-[0_0_15px_rgba(34,197,94,0.1)] transition-all duration-300">
+                <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                    <iconify-icon icon="lucide:droplets" width="24" class="text-green-400"></iconify-icon>
+                </div>
+                <div class="text-xs font-mono text-green-400 uppercase tracking-widest mb-2">Langkah 2</div>
+                <h3 class="text-lg font-bold mb-2">Buang Air Sampah Organik</h3>
+                <p class="text-sm font-mono text-slate-400 leading-relaxed">Keringkan sisa makanan sebisa mungkin sebelum dibuang. Buang kuah/air terpisah agar tidak bau dan mudah diolah jadi kompos.</p>
+            </div>
+            <!-- Tip 3 -->
+            <div class="group bg-slate-900/50 border border-slate-800/60 rounded-xl p-6 hover:border-green-500/30 hover:shadow-[0_0_15px_rgba(34,197,94,0.1)] transition-all duration-300">
+                <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                    <iconify-icon icon="lucide:scissors" width="24" class="text-green-400"></iconify-icon>
+                </div>
+                <div class="text-xs font-mono text-green-400 uppercase tracking-widest mb-2">Langkah 3</div>
+                <h3 class="text-lg font-bold mb-2">Potong Sampah Besar</h3>
+                <p class="text-sm font-mono text-slate-400 leading-relaxed">Potong sampah organik berukuran besar agar proses pengomposan lebih cepat. Untuk plastik, lipat dan padatkan sebelum dibuang.</p>
+            </div>
+            <!-- Tip 4 -->
+            <div class="group bg-slate-900/50 border border-slate-800/60 rounded-xl p-6 hover:border-green-500/30 hover:shadow-[0_0_15px_rgba(34,197,94,0.1)] transition-all duration-300">
+                <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                    <iconify-icon icon="lucide:sparkles" width="24" class="text-green-400"></iconify-icon>
+                </div>
+                <div class="text-xs font-mono text-green-400 uppercase tracking-widest mb-2">Langkah 4</div>
+                <h3 class="text-lg font-bold mb-2">Bilas Wadah Non-Organik</h3>
+                <p class="text-sm font-mono text-slate-400 leading-relaxed">Bilas botol, kaleng, dan wadah plastik bekas sebelum dibuang. Ini membantu proses daur ulang dan mencegah bau.</p>
+            </div>
+            <!-- Tip 5 -->
+            <div class="group bg-slate-900/50 border border-slate-800/60 rounded-xl p-6 hover:border-green-500/30 hover:shadow-[0_0_15px_rgba(34,197,94,0.1)] transition-all duration-300">
+                <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                    <iconify-icon icon="lucide:recycle" width="24" class="text-green-400"></iconify-icon>
+                </div>
+                <div class="text-xs font-mono text-green-400 uppercase tracking-widest mb-2">Langkah 5</div>
+                <h3 class="text-lg font-bold mb-2">Pisahkan Bisa Daur Ulang</h3>
+                <p class="text-sm font-mono text-slate-400 leading-relaxed">Pisahkan plastik, kertas, dan logam yang bisa didaur ulang. Kumpulkan terpisah dan berikan ke pengepul atau bank sampah.</p>
+            </div>
+            <!-- Tip 6 -->
+            <div class="group bg-slate-900/50 border border-slate-800/60 rounded-xl p-6 hover:border-green-500/30 hover:shadow-[0_0_15px_rgba(34,197,94,0.1)] transition-all duration-300">
+                <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                    <iconify-icon icon="lucide:heart-handshake" width="24" class="text-green-400"></iconify-icon>
+                </div>
+                <div class="text-xs font-mono text-green-400 uppercase tracking-widest mb-2">Langkah 6</div>
+                <h3 class="text-lg font-bold mb-2">Kompos di Rumah</h3>
+                <p class="text-sm font-mono text-slate-400 leading-relaxed">Manfaatkan sampah organik jadi kompos dengan ember komposter. Hasilnya bisa dipakai untuk tanaman di rumah — zero waste!</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="line-gradient h-px max-w-3xl mx-auto"></div>
+
+<!-- IMPACT CTA -->
+<section class="py-24 px-4">
+    <div class="max-w-5xl mx-auto relative">
+        <div class="absolute -inset-4 bg-green-500/5 rounded-3xl blur-xl"></div>
+        <div class="relative bg-slate-900/50 border border-green-500/20 rounded-2xl p-12 lg:p-16 text-center overflow-hidden">
+            <div class="absolute inset-0 dot-pattern opacity-10"></div>
+            <div class="relative">
+                <div class="w-16 h-16 rounded-2xl bg-green-500/10 border border-green-500/20 flex items-center justify-center mx-auto mb-6 animate-float">
+                    <iconify-icon icon="lucide:globe" width="28" class="text-green-400 text-glow-green"></iconify-icon>
+                </div>
+                <h2 class="text-3xl lg:text-4xl font-bold tracking-tight mb-4">
+                    Satu Langkah Kecil, <span class="text-gradient-green">Dampak Besar</span>
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8 mb-10">
+                    <div class="bg-slate-950/50 border border-slate-800/60 rounded-xl p-5">
+                        <div class="text-3xl font-bold text-green-400 stat-number mb-1">60%</div>
+                        <div class="text-xs font-mono text-slate-500">Sampah Indonesia adalah organik yang bisa diolah</div>
+                    </div>
+                    <div class="bg-slate-950/50 border border-slate-800/60 rounded-xl p-5">
+                        <div class="text-3xl font-bold text-amber-400 stat-number mb-1">500th</div>
+                        <div class="text-xs font-mono text-slate-500">Waktu botol plastik terurai di alam</div>
+                    </div>
+                    <div class="bg-slate-950/50 border border-slate-800/60 rounded-xl p-5">
+                        <div class="text-3xl font-bold text-green-400 stat-number mb-1">70%</div>
+                        <div class="text-xs font-mono text-slate-500">Emisi gas metana bisa dikurangi dengan kompos</div>
+                    </div>
+                </div>
+                <a href="#database" class="group inline-flex items-center gap-2 px-8 py-3.5 bg-green-500 text-slate-950 text-xs font-bold uppercase tracking-wide rounded-lg hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] transition-all duration-300">
+                    Mulai Pilah Sampah Sekarang
+                    <iconify-icon icon="lucide:arrow-right" width="16" class="group-hover:translate-x-1 transition-transform"></iconify-icon>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-slate-800/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="col-span-2 md:col-span-1">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded bg-green-500 flex items-center justify-center">
+                        <iconify-icon icon="lucide:recycle" width="16" class="text-slate-950"></iconify-icon>
+                    </div>
+                    <span class="text-lg font-bold tracking-tight">WasteWise</span>
+                </div>
+                <p class="text-xs font-mono text-slate-500 leading-relaxed max-w-xs mb-4">
+                    Platform edukasi pilah sampah untuk Indonesia yang lebih bersih dan berkelanjutan.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Navigasi</h4>
+                <div class="space-y-2.5">
+                    <a href="#beranda" class="block text-xs font-mono text-slate-500 hover:text-green-400 transition-colors">Beranda</a>
+                    <a href="#beda" class="block text-xs font-mono text-slate-500 hover:text-green-400 transition-colors">Perbedaan</a>
+                    <a href="#database" class="block text-xs font-mono text-slate-500 hover:text-green-400 transition-colors">Database</a>
+                    <a href="#kuis" class="block text-xs font-mono text-slate-500 hover:text-green-400 transition-colors">Kuis</a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Kategori</h4>
+                <div class="space-y-2.5">
+                    <a href="#" class="block text-xs font-mono text-green-400 hover:text-green-300 transition-colors">Sampah Organik</a>
+                    <a href="#" class="block text-xs font-mono text-amber-400 hover:text-amber-300 transition-colors">Sampah Non-Organik</a>
+                    <a href="#" class="block text-xs font-mono text-slate-500 hover:text-green-400 transition-colors">B3 (Bahan Berbahaya)</a>
+                    <a href="#" class="block text-xs font-mono text-slate-500 hover:text-green-400 transition-colors">Daur Ulang</a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Sumber</h4>
+                <div class="space-y-2.5">
+                    <span class="block text-xs font-mono text-slate-500">KLHK Indonesia</span>
+                    <span class="block text-xs font-mono text-slate-500">UNEP</span>
+                    <span class="block text-xs font-mono text-slate-500">World Bank</span>
+                    <span class="block text-xs font-mono text-slate-500">Zero Waste Indonesia</span>
+                </div>
+            </div>
+        </div>
+        <div class="mt-12 pt-8 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-xs font-mono text-slate-600">© 2025 WasteWise. Dibuat untuk edukasi lingkungan.</p>
+            <p class="text-xs font-mono text-slate-600">Bumi bukan warisan, tapi <span class="text-green-400">amanah</span></p>
+        </div>
+    </div>
+</footer>
+
+<!-- Toast -->
+<div id="toast" class="toast fixed top-24 right-6 z-[70] bg-slate-900/95 backdrop-blur-xl border border-green-500/30 rounded-xl p-4 shadow-[0_0_30px_rgba(0,0,0,0.5)] max-w-sm">
+    <div class="flex items-start gap-3">
+        <div class="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center flex-shrink-0">
+            <iconify-icon id="toastIcon" icon="lucide:check-circle" width="18" class="text-green-400"></iconify-icon>
+        </div>
+        <div>
+            <div class="text-sm font-bold text-white" id="toastTitle">Info</div>
+            <div class="text-xs font-mono text-slate-400 mt-0.5" id="toastMessage"></div>
+        </div>
+        <button onclick="hideToast()" class="text-slate-500 hover:text-white transition-colors flex-shrink-0">
+            <iconify-icon icon="lucide:x" width="16"></iconify-icon>
+        </button>
+    </div>
+</div>
+
+<script>
+// ===== DATA SAMPAH =====
+const wasteData = [
+    // ORGANIK
+    {name:"Sisa Nasi",category:"organik",icon:"lucide:rice",tip:"Bisa diolah menjadi kompos atau pakan ternak",decompose:"2-4 minggu"},
+    {name:"Kulit Pisang",category:"organik",icon:"lucide:banana",tip:"Kaya kalium, sangat bagus untuk pupuk tanaman",decompose:"2-5 minggu"},
+    {name:"Daun Kering",category:"organik",icon:"lucide:leaf",tip:"Komponen utama kompos, kaya karbon",decompose:"1-3 bulan"},
+    {name:"Sisa Sayuran",category:"organik",icon:"lucide:salad",tip:"Busuk cepat, langsung masukkan ke komposter",decompose:"1-2 minggu"},
+    {name:"Tulang Ayam",category:"organik",icon:"lucide:bone",tip:"Perlu dihancurkan dulu agar lebih cepat terurai",decompose:"3-6 bulan"},
+    {name:"Ampas Kopi",category:"organik",icon:"lucide:coffee",tip:"Bisa jadi deodorizer alami dan pupuk tanaman",decompose:"2-3 minggu"},
+    {name:"Teh Celup Bekas",category:"organik",icon:"lucide:cup-soda",tip:"Kantong teh biasanya dari kertas, bisa langsung dikompos",decompose:"2-4 minggu"},
+    {name:"Kulit Buah Mangga",category:"organik",icon:"lucide:citrus",tip:"Potong kecil-kecil agar lebih cepat terurai",decompose:"2-4 minggu"},
+    {name:"Rumput Potongan",category:"organik",icon:"lucide:sprout",tip:"Kaya nitrogen, bagus dicampur dengan daun kering",decompose:"1-2 bulan"},
+    {name:"Kertas HVS",category:"organik",icon:"lucide:file-text",tip:"Bisa terurai, tapi lebih baik didaur ulang dulu",decompose:"2-5 bulan"},
+    {name:"Karton Kardus",category:"organik",icon:"lucide:box",tip:"Potong kecil, basahi, lalu masukkan komposter",decompose:"2-4 bulan"},
+    {name:"Sisa Roti",category:"organik",icon:"lucide:croissant",tip:"Bisa diberikan ke hewan atau dikompos",decompose:"1-3 minggu"},
+    {name:"Cangkang Telur",category:"organik",icon:"lucide:egg",tip:"Kaya kalsium, tumbuk dulu sebelum dikompos",decompose:"3-6 bulan"},
+    {name:"Seresah Kucing",category:"organik",icon:"lucide:cat",tip:"Hanya jika menggunakan pasir/serbuk kayu organik",decompose:"1-2 bulan"},
+    {name:"Ranting Pohon",category:"organik",icon:"lucide:tree-pine",tip:"Potong kecil-kecil atau cacah menggunakan mesin",decompose:"3-12 bulan"},
+    {name:"Sisa Buah-buahan",category:"organik",icon:"lucide:apple",tip:"Semua jenis buah bisa dikompos langsung",decompose:"1-3 minggu"},
+    {name:"Sabut Kelapa",category:"organik",icon:"lucide:palm-tree",tip:"Lama terurai, cocok untuk campuran media tanam",decompose:"6-12 bulan"},
+    {name:"Sisa Ikan/Daging",category:"organik",icon:"lucide:beef",tip:"Bisa menimbulkan bau, gunakan komposter tertutup",decompose:"1-2 minggu"},
+    {name:"Bunga Layu",category:"organik",icon:"lucide:flower-2",tip:"Langsung masukkan ke tumpukan kompos",decompose:"2-4 minggu"},
+    {name:"Kertas Koran",category:"organik",icon:"lucide:newspaper",tip:"Gunakan sebagai lapisan bawah komposter",decompose:"2-6 minggu"},
+    {name:"Tepung/Debu Rumah",category:"organik",icon:"lucide:wind",tip:"Sebagian besar adalah organik (kulit mati, serat)",decompose:"2-4 minggu"},
+    {name:"Rambut/Kuku",category:"organik",icon:"lucide:scissors",tip:"Kaya protein, terurai sangat lambat tapi bisa dikompos",decompose:"6-12 bulan"},
+    {name:"Batang Pisang",category:"organik",icon:"lucide:banana",tip:"Potong kecil-kecil, kaya air bagus untuk kompos",decompose:"1-2 bulan"},
+    {name:"Bekatul/Dedak",category:"organik",icon:"lucide:wheat",tip:"Sangat bagus sebagai aktivator kompos",decompose:"2-4 minggu"},
+
+    // NON-ORGANIK
+    {name:"Botol Plastik (PET)",category:"non-organik",icon:"lucide:bottle",tip:"Bilas, buang tutup, pipihkan, kumpulkan untuk daur ulang",decompose:"450 tahun"},
+    {name:"Plastik Kresek",category:"non-organik",icon:"lucide:shopping-bag",tip:"Gunakan berulang kali, kumpulkan ke pengepul plastik",decompose:"500-1000 tahun"},
+    {name:"Kaleng Minuman",category:"non-organik",icon:"lucide:glass-water",tip:"Bilas, pipihkan, sangat bernilai untuk daur ulang",decompose:"80-200 tahun"},
+    {name:"Styrofoam",category:"non-organik",icon:"lucide:box",tip:"Sangat sulit didaur ulang, hindari penggunaan",decompose:"Tidak terurai"},
+    {name:"Botol Kaca",category:"non-organik",icon:"lucide:wine",tip:"Bisa didaur ulang tanpa batas, kumpulkan terpisah",decompose:"1 juta tahun"},
+    {name:"Pecahan Kaca",category:"non-organik",icon:"lucide:diamond",tip:"Bungkus rapi dengan kertas sebelum dibuang",decompose:"1 juta tahun"},
+    {name:"Baterai Bekas",category:"non-organik",icon:"lucide:battery-charging",tip:"B3! Jangan buang sembarangan, kumpulkan di tempat khusus",decompose:"100 tahun"},
+    {name:"Kabel Elektronik",category:"non-organik",icon:"lucide:cable",tip:"Mengandung logam berharga, kumpulkan ke e-waste collector",decompose:"Tidak terurai"},
+    {name:"CD/DVD Bekas",category:"non-organik",icon:"lucide:disc",tip:"Mengandung polikarbonat, kumpulkan ke e-waste",decompose:"500 tahun"},
+    {name:"Piring Melamin",category:"non-organik",icon:"lucide:plate",tip:"Tidak bisa terurai, buang ke tempat sampah non-organik",decompose:"Tidak terurai"},
+    {name:"Sendok Plastik",category:"non-organik",icon:"lucide:utensils",tip:"Ganti dengan alternatif kayu/bambu jika memungkinkan",decompose:"200-1000 tahun"},
+    {name:"Sedotan Plastik",category:"non-organik",icon:"lucide:minus",tip:"Gunakan sedotan stainless/bambu sebagai alternatif",decompose:"200 tahun"},
+    {name:"Popok Bekas",category:"non-organik",icon:"lucide:baby",tip:"Mengandung bahan kimia, bungkus rapi sebelum dibuang",decompose:"500 tahun"},
+    {name:"Kaleng Cat Bekas",category:"non-organik",icon:"lucide:paint-bucket",tip:"B3! Sisa cat termasuk limbah berbahaya",decompose:"Tidak terurai"},
+    {name:"Ban Bekas",category:"non-organik",icon:"lucide:circle",tip:"Bisa diolah jadi kerajinan atau bahan bakar alternatif",decompose:"2000 tahun"},
+    {name:"Sarung Tangan Lateks",category:"non-organik",icon:"lucide:hand",tip:"Lateks alami terlambat, lateks sintetis tidak terurai",decompose:"50+ tahun"},
+    {name:"Cermin Bekas",category:"non-organik",icon:"lucide:scan-face",tip:"Bungkus kertas koran, label 'pecahan kaca'",decompose:"Tidak terurai"},
+    {name:"Spons Cuci Piring",category:"non-organik",icon:"lucide:square-dashed-bottom",tip:"Terbuat dari poliuretan, ganti secara berkala",decompose:"50+ tahun"},
+    {name:"Tinta Printer Bekas",category:"non-organik",icon:"lucide:printer",tip:"B3! Kumpulkan di tempat penampungan khusus",decompose:"Tidak terurai"},
+    {name:"Lampu Neon/LED Bekas",category:"non-organik",icon:"lucide:lightbulb",tip:"Mengandung merkuri, buang di tempat khusus B3",decompose:"Tidak terurai"},
+    {name:"Kantong Plastik Shampoo",category:"non-organik",icon:"lucide:droplet",tip:"Bilas, kumpulkan, berikan ke pengepul plastik",decompose:"500 tahun"},
+    {name:"Paku/Baut Bekas",category:"non-organik",icon:"lucide:wrench",tip:"Logam bisa didaur ulang, kumpulkan terpisah",decompose:"100+ tahun"},
+    {name:"Aerosol Bekas",category:"non-organik",icon:"lucide:spray-can",tip:"B3! Jangan tusuk atau bakar, buang di tempat khusus",decompose:"Tidak terurai"},
+    {name:"Gelas Plastik Sekali Pakai",category:"non-organik",icon:"lucide:cup-soda",tip:"Bilas, kumpulkan, gunakan gelas yang bisa dicuci",decompose:"450 tahun"},
+    {name:"Clip/Jepitan Rambut",category:"non-organik",icon:"lucide:paperclip",tip:"Logam kecil, kumpulkan dengan sampah logam lainnya",decompose:"200+ tahun"},
+    {name:"Karet Gelang",category:"non-organik",icon:"lucide:circle-dot",tip:"Terbuat dari karet sintetis, tidak bisa terurai",decompose:"Tidak terurai"},
+];
+
+// ===== QUIZ DATA =====
+const quizData = [
+    {q:"Sisa nasi goreng masuk kategori sampah apa?",options:["Non-Organik","Organik","B3","Daur Ulang"],answer:1,explain:"Sisa nasi berasal dari bahan makanan yang bisa diurai oleh mikroorganisme menjadi kompos."},
+    {q:"Botol plastik air mineral termasuk sampah...",options:["Organik","B3","Non-Organik","Kompos"],answer:2,explain:"Botol plastik terbuat dari PET (polietilen tereftalat) yang membutuhkan 450+ tahun untuk terurai."},
+    {q:"Ampas kopi termasuk sampah apa?",options:["Non-Organik","B3","Daur Ulang","Organik"],answer:3,explain:"Ampas kopi berasal dari biji kopi (alam) dan bisa terurai dalam 2-3 minggu. Bisa dijadikan pupuk!"},
+    {q:"Styrofoam bekas makanan masuk kategori...",options:["Organik","Non-Organik","Bisa Dimakan","Kompos"],answer:1,explain:"Styrofoam terbuat dari polistirena yang tidak bisa terurai secara alami sama sekali."},
+    {q:"Kardus bekas kemasan bisa dikategorikan sebagai...",options:["Non-Organik murni","B3","Organik (bisa terurai)","Tidak bisa diolah"],answer:2,explain:"Kardus terbuat dari serat kayu yang bisa terurai. Tapi lebih baik didaur ulang dulu."},
+    {q:"Baterai bekas remote TV harus dibuang ke...",options:["Tempat sampah organik","Tempat sampah biasa","Tempat penampungan B3","Bak sampah depan rumah"],answer:2,explain:"Baterai mengandung merkuri dan bahan kimia berbahaya (B3) yang tidak boleh dibuang sembarangan."},
+    {q:"Kulit pisang bisa terurai dalam waktu...",options:["50 tahun","2-5 minggu","500 tahun","Tidak bisa terurai"],answer:1,explain:"Kulit pisang organik dan bisa terurai sangat cepat oleh mikroorganisme, dalam hitungan minggu."},
+    {q:"Sedotan plastik membutuhkan waktu berapa lama untuk terurai?",options:["1 bulan","1 tahun","200 tahun","1 hari"],answer:2,explain:"Sedotan plastik terbuat dari polipropilen yang membutuhkan sekitar 200 tahun untuk terurai."},
+    {q:"Cangkang telur termasuk sampah...",options:["Non-Organik","B3","Organik","Tidak bisa diolah"],answer:2,explain:"Cangkang telur berasal dari hewan dan kaya kalsium. Tumbuk dulu lalu bisa dikompos."},
+    {q:"Kaleng bekas minuman soda sebaiknya...",options:["Dibuang begitu saja","Dibakar","Dibilas lalu kumpulkan untuk daur ulang","Ditanam di tanah"],answer:2,explain:"Kaleng aluminium sangat bernilai untuk daur ulang dan bisa didaur ulang tanpa batas kualitasnya menurun."},
+];
+
+// ===== RENDER WASTE DATABASE =====
+const wasteGrid = document.getElementById('wasteGrid');
+const searchInput = document.getElementById('searchInput');
+const clearSearch = document.getElementById('clearSearch');
+const countNum = document.getElementById('countNum');
+const noResults = document.getElementById('noResults');
+let activeFilter = 'all';
+
+function getIcon(category) {
+    return category === 'organik' ? 'lucide:leaf' : 'lucide:package';
+}
+function getColor(category) {
+    return category === 'organik' ? {
+        border:'border-green-500/20',
+        hoverBorder:'hover:border-green-500/40',
+        iconBg:'bg-green-500/10',
+        iconBorder:'border-green-500/20',
+        iconText:'text-green-400',
+        badgeBg:'bg-green-500/10',
+        badgeText:'text-green-400',
+        badgeBorder:'border-green-500/20',
+        glow:'hover:shadow-[0_0_15px_rgba(34,197,94,0.1)]',
+        timeColor:'text-green-400/70'
+    } : {
+        border:'border-amber-500/20',
+        hoverBorder:'hover:border-amber-500/40',
+        iconBg:'bg-amber-500/10',
+        iconBorder:'border-amber-500/20',
+        iconText:'text-amber-400',
+        badgeBg:'bg-amber-500/10',
+        badgeText:'text-amber-400',
+        badgeBorder:'border-amber-500/20',
+        glow:'hover:shadow-[0_0_15px_rgba(245,158,11,0.1)]',
+        timeColor:'text-amber-400/70'
+    };
+}
+
+function renderWaste(items) {
+    wasteGrid.innerHTML = '';
+    if (items.length === 0) {
+        noResults.classList.remove('hidden');
+        countNum.textContent = '0';
+        return;
+    }
+    noResults.classList.add('hidden');
+    countNum.textContent = items.length;
+
+    items.forEach((item, i) => {
+        const c = getColor(item.category);
+        const card = document.createElement('div');
+        card.className = `waste-card bg-slate-900/50 ${c.border} ${c.hoverBorder} ${c.glow} rounded-xl p-5 cursor-default`;
+        card.style.animationDelay = `${i * 30}ms`;
+        card.classList.add('animate-slide-up');
+
+        card.innerHTML = `
+            <div class="flex items-start justify-between mb-3">
+                <div class="w-10 h-10 rounded-lg ${c.iconBg} ${c.iconBorder} border flex items-center justify-center">
+                    <iconify-icon icon="${item.icon}" width="20" class="${c.iconText}"></iconify-icon>
+                </div>
+                <span class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${c.badgeBg} ${c.badgeText} border ${c.badgeBorder} rounded-md">
+                    ${item.category === 'organik' ? 'Organik' : 'Non-Organik'}
+                </span>
+            </div>
+            <h4 class="text-sm font-bold font-mono text-white mb-2">${item.name}</h4>
+            <p class="text-xs font-mono text-slate-500 leading-relaxed mb-3">${item.tip}</p>
+            <div class="flex items-center gap-1.5">
+                <iconify-icon icon="lucide:clock" width="12" class="${c.timeColor}"></iconify-icon>
+                <span class="text-[10px] font-mono ${c.timeColor}">${item.decompose}</span>
+            </div>
+        `;
+        wasteGrid.appendChild(card);
+    });
+}
+
+function filterWaste() {
+    const query = searchInput.value.toLowerCase().trim();
+    let filtered = wasteData;
+
+    if (activeFilter !== 'all') {
+        filtered = filtered.filter(w => w.category === activeFilter);
+    }
+    if (query) {
+        filtered = filtered.filter(w => w.name.toLowerCase().includes(query) || w.tip.toLowerCase().includes(query));
+        clearSearch.classList.remove('hidden');
+    } else {
+        clearSearch.classList.add('hidden');
+    }
+
+    renderWaste(filtered);
+}
+
+searchInput.addEventListener('input', filterWaste);
+clearSearch.addEventListener('click', () => {
+    searchInput.value = '';
+    filterWaste();
+    searchInput.focus();
+});
+
+// Category Tabs
+document.querySelectorAll('.category-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.category-tab').forEach(t => {
+            t.className = 'category-tab px-5 py-2 text-xs font-bold uppercase tracking-wide rounded-lg border border-slate-800 text-slate-400 hover:border-green-500/30 transition-all duration-300';
+        });
+        const f = tab.dataset.filter;
+        activeFilter = f;
+        if (f === 'all') tab.classList.add('active-all');
+        else if (f === 'organik') tab.classList.add('active-organic');
+        else tab.classList.add('active-nonorganic');
+        filterWaste();
+    });
+});
+
+// Initial render
+renderWaste(wasteData);
+
+// ===== QUIZ LOGIC =====
+let currentQ = 0;
+let score = 0;
+let answered = false;
+
+const quizStart = document.getElementById('quizStart');
+const quizQuestion = document.getElementById('quizQuestion');
+const quizResult = document.getElementById('quizResult');
+const qNum = document.getElementById('qNum');
+const qText = document.getElementById('qText');
+const qOptions = document.getElementById('qOptions');
+const qFeedback = document.getElementById('qFeedback');
+const nextBtn = document.getElementById('nextBtn');
+const scoreDisplay = document.getElementById('scoreDisplay');
+const progressBar = document.getElementById('progressBar');
+
+document.getElementById('startQuiz').addEventListener('click', startQuiz);
+document.getElementById('retryQuiz').addEventListener('click', startQuiz);
+nextBtn.addEventListener('click', nextQuestion);
+
+function startQuiz() {
+    currentQ = 0;
+    score = 0;
+    answered = false;
+    scoreDisplay.textContent = '0';
+    quizStart.classList.add('hidden');
+    quizResult.classList.add('hidden');
+    quizQuestion.classList.remove('hidden');
+    showQuestion();
+}
+
+function showQuestion() {
+    answered = false;
+    const q = quizData[currentQ];
+    qNum.textContent = currentQ + 1;
+    progressBar.style.width = `${((currentQ + 1) / quizData.length) * 100}%`;
+    qText.textContent = q.q;
+    qFeedback.classList.add('hidden');
+    nextBtn.classList.add('hidden');
+
+    qOptions.innerHTML = '';
+    q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-option w-full flex items-center gap-3 p-4 bg-slate-950/50 border border-slate-800 rounded-xl text-left';
+        const labels = ['A','B','C','D'];
+        btn.innerHTML = `
+            <span class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-xs font-bold font-mono text-slate-400 flex-shrink-0">${labels[i]}</span>
+            <span class="text-sm font-mono text-slate-300">${opt}</span>
+        `;
+        btn.addEventListener('click', () => selectAnswer(i, btn));
+        qOptions.appendChild(btn);
+    });
+}
+
+function selectAnswer(index, btn) {
+    if (answered) return;
+    answered = true;
+
+    const q = quizData[currentQ];
+    const options = qOptions.querySelectorAll('.quiz-option');
+
+    options.forEach(o => o.classList.add('disabled'));
+
+    if (index === q.answer) {
+        btn.classList.add('correct');
+        score++;
+        scoreDisplay.textContent = score;
+        qFeedback.innerHTML = `<div class="flex items-start gap-2"><iconify-icon icon="lucide:check-circle" width="16" class="text-green-400 mt-0.5"></iconify-icon><div><span class="text-green-400 font-bold">Benar! </span><span class="text-slate-400">${q.explain}</span></div></div>`;
+        qFeedback.className = 'mt-6 p-4 rounded-xl text-sm font-mono bg-green-500/5 border border-green-500/20';
+    } else {
+        btn.classList.add('wrong');
+        options[q.answer].classList.add('correct');
+        qFeedback.innerHTML = `<div class="flex items-start gap-2"><iconify-icon icon="lucide:x-circle" width="16" class="text-rose-400 mt-0.5"></iconify-icon><div><span class="text-rose-400 font-bold">Kurang tepat. </span><span class="text-slate-400">${q.explain}</span></div></div>`;
+        qFeedback.className = 'mt-6 p-4 rounded-xl text-sm font-mono bg-rose-500/5 border border-rose-500/20';
+    }
+    qFeedback.classList.remove('hidden');
+    nextBtn.classList.remove('hidden');
+
+    if (currentQ === quizData.length - 1) {
+        nextBtn.innerHTML = 'Lihat Hasil <iconify-icon icon="lucide:trophy" width="16"></iconify-icon>';
+    }
+}
+
+function nextQuestion() {
+    currentQ++;
+    if (currentQ >= quizData.length) {
+        showResult();
+    } else {
+        nextBtn.innerHTML = 'Soal Berikutnya <iconify-icon icon="lucide:arrow-right" width="16"></iconify-icon>';
+        showQuestion();
+    }
+}
+
+function showResult() {
+    quizQuestion.classList.add('hidden');
+    quizResult.classList.remove('hidden');
+
+    const resultIcon = document.getElementById('resultIcon');
+    const resultTitle = document.getElementById('resultTitle');
+    const resultDesc = document.getElementById('resultDesc');
+    const finalScore = document.getElementById('finalScore');
+
+    finalScore.textContent = score;
+
+    if (score >= 9) {
+        resultIcon.className = 'w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce-in bg-green-500/20 border-2 border-green-500';
+        resultIcon.innerHTML = '<iconify-icon icon="lucide:trophy" width="48" class="text-green-400"></iconify-icon>';
+        resultTitle.textContent = 'Luar Biasa! 🌟';
+        resultDesc.textContent = 'Kamu sudah sangat paham tentang pilah sampah. Terus jadi contoh untuk lingkungan sekitarmu!';
+        showToast('Selamat! 🎉', 'Skor sempurna! Kamu ahli pilah sampah!');
+    } else if (score >= 7) {
+        resultIcon.className = 'w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce-in bg-green-500/10 border-2 border-green-500/50';
+        resultIcon.innerHTML = '<iconify-icon icon="lucide:thumbs-up" width="48" class="text-green-400"></iconify-icon>';
+        resultTitle.textContent = 'Bagus Sekali! 👍';
+        resultDesc.textContent = 'Pengetahuanmu sudah cukup baik. Sedikit lagi menuju sempurna!';
+        showToast('Hebat!', 'Skor bagus! Terus belajar ya.');
+    } else if (score >= 5) {
+        resultIcon.className = 'w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce-in bg-amber-500/10 border-2 border-amber-500/50';
+        resultIcon.innerHTML = '<iconify-icon icon="lucide:book-open" width="48" class="text-amber-400"></iconify-icon>';
+        resultTitle.textContent = 'Cukup Baik 📖';
+        resultDesc.textContent = 'Kamu sudah punya dasar, tapi masih perlu belajar lagi. Coba baca database sampah kami!';
+        showToast('Tidak buruk!', 'Pelajari database sampah untuk meningkatkan skor.');
+    } else {
+        resultIcon.className = 'w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce-in bg-rose-500/10 border-2 border-rose-500/50';
+        resultIcon.innerHTML = '<iconify-icon icon="lucide:book-marked" width="48" class="text-rose-400"></iconify-icon>';
+        resultTitle.textContent = 'Perlu Belajar Lagi 📚';
+        resultDesc.textContent = 'Jangan menyerah! Baca panduan di atas dan coba lagi. Setiap orang bisa belajar memilah sampah!';
+        showToast('Ayo coba lagi!', 'Baca panduan di website ini lalu ulangi kuis.');
+    }
+}
+
+// ===== TOAST =====
+function showToast(title, message) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toastTitle').textContent = title;
+    document.getElementById('toastMessage').textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => hideToast(), 5000);
+}
+function hideToast() {
+    document.getElementById('toast').classList.remove('show');
+}
+
+// ===== MOBILE NAV =====
+const menuBtn = document.getElementById('menuBtn');
+const closeMenuBtn = document.getElementById('closeMenu');
+const mobileNav = document.getElementById('mobileNav');
+const navOverlay = document.getElementById('navOverlay');
+
+function openMenu() { mobileNav.classList.add('open'); navOverlay.classList.remove('hidden'); document.body.style.overflow='hidden'; }
+function closeMenu() { mobileNav.classList.remove('open'); navOverlay.classList.add('hidden'); document.body.style.overflow=''; }
+
+menuBtn.addEventListener('click', openMenu);
+closeMenuBtn.addEventListener('click', closeMenu);
+navOverlay.addEventListener('click', closeMenu);
+document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', closeMenu));
+
+// Navbar scroll border
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+    navbar.style.borderBottom = window.scrollY > 50 ? '1px solid rgba(30,30,30,0.6)' : 'none';
+});
+
+// Scroll Reveal
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('section > div').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+});
+</script>
+</body>
+</html>
